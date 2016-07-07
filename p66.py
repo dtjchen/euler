@@ -1,6 +1,6 @@
 
 """
-Problem 66:
+Problem 66: Diophantine equation
 Consider quadratic Diophantine equations of the form:
 x^2 - Dy^2 = 1
 
@@ -44,28 +44,22 @@ Continued Fractions Method:
 
 from math import floor, sqrt
 
-"""
-Euclidean algorithm for GCD.
-(Is this necesssary?)
-"""
 def gcd(x, y):
+    """
+    Euclidean algorithm for GCD.
+    (Is this necesssary?)
+    """
     while y != 0:
         (x, y) = (y, x % y)
     return int(x)
 
-"""
-Check if actual solution to Pell equation.
-"""
 def is_pell_solution(x, y, D):
+    """
+    Check if actual solution to Pell equation.
+    """
     return ((x**2 - D*y**2) == 1)
 
-"""
-Gets continued fraction representation of sqrt(D).
-[a0; period], where period [a1, a2, ... a2, a1, 2_a0]
-CAREFUL!: Floating point calculations can fail -> See sqrt(139), etc.
-Resolve by limiting such calculations.
-Returns: [a0, period]
-"""
+
 """ FAILS w/ 139, etc.
 def sqrtcf_solver(D):
     a0 = int(floor(sqrt(D)))
@@ -82,6 +76,13 @@ def sqrtcf_solver(D):
 """
 # NEW!: Using manipulations and substitutions
 def sqrtcf_solver(D):
+    """
+    Gets continued fraction representation of sqrt(D).
+    [a0; period], where period [a1, a2, ... a2, a1, 2_a0]
+    CAREFUL!: Floating point calculations can fail -> See sqrt(139), etc.
+    Resolve by limiting such calculations.
+    Returns: [a0, period]
+    """
     D = int(D) # just in case?
     a0 = int(floor(sqrt(D)))
     x, y = 1, a0
@@ -98,12 +99,12 @@ def sqrtcf_solver(D):
         if (an == 2*a0): break
     return cf
 
-"""
-Gets improper fraction representation from
-continued fraction representation. (x/y)
-Returns: [x, y]
-"""
 def imf_from_cf(cf):
+    """
+    Gets improper fraction representation from
+    continued fraction representation. (x/y)
+    Returns: [x, y]
+    """
     # r + (x/y)
     x, y = cf[-1], 1
     for ax in reversed(cf[:-1]):
@@ -113,12 +114,12 @@ def imf_from_cf(cf):
         x, y = ax*x + y, x
     return x, y
 
-"""
-Finds fundamental solution to x^2 - Dy^2 = 1.
-Where D positive int, not perfect square, please.
-Returns: [x, y]
-"""
 def pell_solver(D): # not the greatest solution
+    """
+    Finds fundamental solution to x^2 - Dy^2 = 1.
+    Where D positive int, not perfect square, please.
+    Returns: [x, y]
+    """
     cf = sqrtcf_solver(D)
     cfx = cf
     if (len(cf) & 1): cfx = cfx[:-1] # if period (len(cf)-1) even, use one less
@@ -128,20 +129,20 @@ def pell_solver(D): # not the greatest solution
         x, y = imf_from_cf(cfx)
     return x, y
 
-"""
-Get nth non-square positive integer.
-F(n) = n + floor(0.5 + sqrt(n))
-See: http://oeis.org/A000037
-"""
 def nonsq(n):
+    """
+    Get nth non-square positive integer.
+    F(n) = n + floor(0.5 + sqrt(n))
+    See: http://oeis.org/A000037
+    """
     return int(n + floor(0.5 + sqrt(n)))
 
-"""
-Solves problem 66.
-Iterate through non-squares <= 1000.
-Some values saved for diagnostic purposes.
-"""
 def p66(dmax=1000):
+    """
+    Solves problem 66.
+    Iterate through non-squares <= 1000.
+    Some values saved for diagnostic purposes.
+    """
     x, y = 0, 0
     n = 1
     nsq = nonsq(n)
