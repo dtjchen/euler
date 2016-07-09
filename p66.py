@@ -47,7 +47,7 @@ from math import floor, sqrt
 def gcd(x, y):
     """
     Euclidean algorithm for GCD.
-    (Is this necesssary?)
+    (Is this necessary?)
     """
     while y != 0:
         (x, y) = (y, x % y)
